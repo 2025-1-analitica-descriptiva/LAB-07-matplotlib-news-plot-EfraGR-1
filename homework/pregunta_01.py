@@ -69,7 +69,6 @@ def pregunta_01():
     os.makedirs("files/plots", exist_ok=True)
     
     plt.savefig("files/plots/news.png")
-    
     plt.show()
 
 pregunta_01()
