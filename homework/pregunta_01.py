@@ -21,53 +21,47 @@ def pregunta_01():
     import pandas as pd
     import matplotlib.pyplot as plt
 
-    data = pd.read_csv("files/input/news.csv", index_col=0)
+    datos = pd.read_csv("files/input/news.csv", index_col=0)
 
-    est_lines = {
+    estilo_lineas = {
         "Television": {"color": "dimgray", "ancho": 2, "z": 1},
         "Newspaper": {"color": "grey", "ancho": 2, "z": 1},
         "Internet": {"color": "tab:blue", "ancho": 3, "z": 2},
         "Radio": {"color": "lightgrey", "ancho": 2, "z": 1},
     }
 
-    fig, axm = plt.subplots()
+    fig, ax = plt.subplots()
 
-    for medio, props in est_lines.items():
-        axm.plot(
-            data[medio],
+    for medio, props in estilo_lineas.items():
+        ax.plot(
+            datos[medio],
             label=medio,
             color=props["color"],
             linewidth=props["ancho"],
             zorder=props["z"],
         )
 
-    axm.set_title("How people get their news", fontsize=16)
-    axm.spines["top"].set_visible(False)
-    axm.spines["left"].set_visible(False)
-    axm.spines["right"].set_visible(False)
-    axm.get_yaxis().set_visible(False)
+    ax.set_title("How people get their news", fontsize=16)
+    ax.spines["top"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.get_yaxis().set_visible(False)
 
-    year_init, year_end = data.index[0], data.index[-1]
+    anio_inicio, anio_fin = datos.index[0], datos.index[-1]
 
-    for medio, props in est_lines.items():
-        
-        y_init = data.loc[year_init, medio]
-        
-        y_end = data.loc[year_end, medio]
+    for medio, props in estilo_lineas.items():
+        y_inicio = datos.loc[anio_inicio, medio]
+        y_fin = datos.loc[anio_fin, medio]
 
-        axm.scatter(year_init, y_init, color=props["color"], zorder=props["z"])
-        
-        axm.text(year_init - 0.2, y_init, f"{medio} {y_init}%", ha="right", va="center", color=props["color"])
+        ax.scatter(anio_inicio, y_inicio, color=props["color"], zorder=props["z"])
+        ax.text(anio_inicio - 0.2, y_inicio, f"{medio} {y_inicio}%", ha="right", va="center", color=props["color"])
 
-        axm.scatter(year_end, y_end, color=props["color"], zorder=props["z"])
-        
-        axm.text(year_end + 0.2, y_end, f"{y_end}%", ha="left", va="center", color=props["color"])
+        ax.scatter(anio_fin, y_fin, color=props["color"], zorder=props["z"])
+        ax.text(anio_fin + 0.2, y_fin, f"{y_fin}%", ha="left", va="center", color=props["color"])
 
     plt.tight_layout()
 
-    
     os.makedirs("files/plots", exist_ok=True)
-    
     plt.savefig("files/plots/news.png")
     plt.show()
 
